@@ -1,6 +1,8 @@
-import expres from 'express'
+import express from 'express'
 
-const app  = expres();
+const app = express();
+
+app.use(express.static('src/public'));
 
 app.get('/', (req, res) => {
     res.send('test')
