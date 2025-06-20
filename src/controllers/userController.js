@@ -25,10 +25,15 @@ userControler.post("/login", async (req, res) => {
 
     const token = await userService.login(username, password);
 
-    res.cookie('auth', token)
+    res.cookie('auth', token);
 
-    res.redirect('/')
+    res.redirect('/');
 });
+
+userControler.get('/logout', (req,res) =>{
+    res.clearCookie('auth');
+    res.redirect('/');
+})
 
 
 export default userControler;
