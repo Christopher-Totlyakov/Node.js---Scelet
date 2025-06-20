@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userService from "../services/userService.js";
 import { isAuth, isGuest } from "../middlewares/authMiddlewares.js";
+import { getErrorMessage } from "../utils/errorUtils.js";
 
 const userControler = Router();
 
@@ -11,10 +12,15 @@ userControler.get("/register", isGuest, (req, res) => {
 userControler.post("/register", isGuest, async (req, res) => {
     const userData = req.body;
     
-    const token = await userService.register(userData);
-    res.cookie('auth', token)
+    try {
+        const token = await userService.register(userData);
+        res.cookie('auth', token)
 
-    res.redirect('/')
+        res.redirect('/')
+    } catch (err) {
+        res.render('user/register', { error: getErrorMessage(err), user: userData });
+    }
+
 });
 
 userControler.get("/login", isGuest, (req, res) =>{
@@ -24,11 +30,15 @@ userControler.get("/login", isGuest, (req, res) =>{
 userControler.post("/login", isGuest, async (req, res) => {
     const {username, password} = req.body;
 
-    const token = await userService.login(username, password);
+    try {
+        const token = await userService.login(username, password);
+        res.cookie('auth', token);
 
-    res.cookie('auth', token);
-
-    res.redirect('/');
+        res.redirect('/');
+    } catch (err) {
+        res.render('user/login', { error: getErrorMessage(err), username });
+    }
+    
 });
 
 userControler.get('/logout', isAuth, (req,res) =>{
