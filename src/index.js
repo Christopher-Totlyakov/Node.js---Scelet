@@ -2,12 +2,15 @@ import express from 'express'
 import routes from './routes.js';
 import handlebars from 'express-handlebars'
 import initDatabase from './config/dbConfig.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
 initDatabase()
 
 app.use(express.static('src/public'));
+
+app.use(cookieParser)
 
 app.use(express.urlencoded());
 
