@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 async function initDatabase(){
-    const dbUrl = '';
+    const dbUrl = 'mongodb://admin:admin@localhost:27017/?authSource=admin';
     const dbName = 'test_db';
 
     try {
