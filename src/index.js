@@ -10,7 +10,7 @@ initDatabase()
 
 app.use(express.static('src/public'));
 
-app.use(cookieParser)
+app.use(cookieParser())
 
 app.use(express.urlencoded());
 
