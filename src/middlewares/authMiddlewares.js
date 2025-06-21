@@ -1,7 +1,10 @@
 import jsonwebtoken from "jsonwebtoken";
 import { JWT_SECRET } from "../config/index.js";
+import util from 'util'
 
-export function auth(req, res, next){
+const jwtPromisVerify = util.promisify(jsonwebtoken.verify);
+
+export async function auth(req, res, next){
     const token = req.cookies['auth'];
 
     if (!token) {
@@ -9,7 +12,7 @@ export function auth(req, res, next){
     }
 
     try {
-        const user = jsonwebtoken.verify(token, JWT_SECRET);
+        const user = await jwtPromisVerify(token, JWT_SECRET);
 
         req.user = user;
         req.isAuthenticated = true;

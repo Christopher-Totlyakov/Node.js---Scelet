@@ -16,7 +16,7 @@ export default {
         }
 
         const newUser = await User.create(userData);
-        const token = generateAuthToken(newUser);
+        const token = await generateAuthToken(newUser);
         return token;
     },
     async login(username, password){
@@ -31,7 +31,7 @@ export default {
             throw new Error('invalid password');
         }
 
-        const token = generateAuthToken(user);
+        const token = await generateAuthToken(user);
         return token;
     }
 }
